@@ -5,6 +5,7 @@ var conf = NewConfig()
 // Config contains settings of util
 type Config struct {
 	MamaevsPairs []*MamaevsPair `toml:"mamaevs-pairs"`
+	Threads      int            `toml:"threads"`
 }
 
 // NewConfig returns new instance of config
@@ -32,6 +33,7 @@ func NewConfig() *Config {
 				Weight: 4,
 			},
 		},
+		Threads: 4,
 	}
 }
 

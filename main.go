@@ -40,7 +40,7 @@ func main() {
 		seqs = append(seqs, seq)
 	}
 
-	comparisonMatrix := BuildComparisonMatrix(seqs)
+	comparisonMatrix := BuildComparisonMatrixConcurrent(seqs, conf.Threads)
 	fa := mat.Formatted(comparisonMatrix, mat.Squeeze())
 	fmt.Println(fa)
 }
