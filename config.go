@@ -12,26 +12,11 @@ type Config struct {
 func NewConfig() *Config {
 	return &Config{
 		MamaevsPairs: []*MamaevsPair{
-			{
-				Size:   4,
-				Weight: 64,
-			},
-			{
-				Size:   8,
-				Weight: 32,
-			},
-			{
-				Size:   16,
-				Weight: 16,
-			},
-			{
-				Size:   32,
-				Weight: 8,
-			},
-			{
-				Size:   64,
-				Weight: 4,
-			},
+			{Size: 8, Weight: 8},
+			{Size: 16, Weight: 16},
+			{Size: 32, Weight: 32},
+			{Size: 64, Weight: 64},
+			{Size: 128, Weight: 128},
 		},
 		Threads: 4,
 	}

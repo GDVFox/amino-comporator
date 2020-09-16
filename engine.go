@@ -72,15 +72,15 @@ func runCalculateHashes(seqs []*AminoSequence, tasks *Semaphore) <-chan concBldH
 		wg := sync.WaitGroup{}
 		wg.Add(len(seqs))
 		for i, seq := range seqs {
-			tasks.Accuire()
+			tasks.Acquire()
 			go func(i int, seq *AminoSequence) {
+				defer wg.Done()
 				hashes := concBldHashes{
 					seqNum: i,
 					hashes: buildSequenceHashes(seq),
 				}
 				tasks.Release()
 				hashesCh <- hashes
-				wg.Done()
 			}(i, seq)
 		}
 		wg.Wait()
@@ -105,8 +105,9 @@ func runCalculateValues(hashesCh <-chan concBldHashes, tasks *Semaphore) <-chan 
 			lastAccepted := len(accepted) - 1
 			wg.Add(len(accepted) - 1)
 			for i := 0; i < lastAccepted; i++ {
-				tasks.Accuire()
+				tasks.Acquire()
 				go func(h1, h2 concBldHashes) {
+					defer wg.Done()
 					value := concBldValue{
 						seqNum1: MinInt(h1.seqNum, h2.seqNum),
 						seqNum2: MaxInt(h1.seqNum, h2.seqNum),
@@ -114,7 +115,6 @@ func runCalculateValues(hashesCh <-chan concBldHashes, tasks *Semaphore) <-chan 
 					}
 					tasks.Release()
 					valueCh <- value
-					wg.Done()
 				}(accepted[i], accepted[lastAccepted])
 			}
 		}

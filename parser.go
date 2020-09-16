@@ -85,5 +85,5 @@ func (p *FastaParser) parseHeader(h string) (string, string, error) {
 		return "", "", ErrBadHeader
 	}
 
-	return info[1], info[2], nil
+	return strings.TrimSpace(info[1]), strings.TrimSpace(info[2]), nil
 }
